@@ -1,0 +1,18 @@
+# Temporary files and directories
+tmp/
+tmp/*
+
+# Common PowerShell and Windows temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+*.backup.*
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# PowerShell execution policy bypass files
+*.ps1.txt
