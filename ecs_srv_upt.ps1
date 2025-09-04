@@ -4,8 +4,8 @@
 # Stops services, copies files, and restarts services
 
 # --- Configuration ---
-$SourceFolder = "C:\Users\7Arrt\Desktop\Projects\ecs_srv_data_update\tmp\source"  # Source folder for files
-$DestinationFolder = "C:\Users\7Arrt\Desktop\Projects\ecs_srv_data_update\tmp\dest" # Destination folder for files
+$SourceFolder = "C:\tmp\source"  # Source folder for files
+$DestinationFolder = "C:\tmp\dest" # Destination folder for files
 
 # Services to stop and restart
 $ServicesToManage = @(
