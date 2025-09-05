@@ -221,12 +221,11 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 - **Разработчик**: Артемий Семёнов
 - **Email**: semonoff@gmail.com
-- **GitHub**: [@your-username](https://github.com/your-username)
+- **GitHub**: [SemonoffArt](https://github.com/SemonoffArt)
 
 ## 🙏 Благодарности
 
-- Microsoft за PowerShell
-- Сообщество разработчиков за вклад и обратную связь
-- Все участники проекта
+- LLM за вайб кодинг
+
 
 ---
