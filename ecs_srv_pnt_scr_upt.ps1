@@ -3,11 +3,11 @@
 # (Service management functionality is commented out)
 
 # --- Configuration ---
-$MdbSourceFolder = "C:\tmp\source\FlsaProDb"    # Source folder for MDB files
-$MdbDestinationFolder = "C:\tmp\dest\FlsaDev\ProDb" # Destination folder for MDB files
+$MdbSourceFolder = "\\ECS2261SVR02\FlsaProDb"    # Network source folder for MDB files
+$MdbDestinationFolder = "C:\FlsaDev\ProDb" # Destination folder for MDB files
 
-$PicSourceFolder = "C:\tmp\source\FlsaGmsPic\ECS2261"  # Source folder for directory copy
-$PicDestinationFolder = "C:\tmp\dest\FlsaDev\GMSPic\Ops\ECS2261" # Destination folder for directory copy
+$PicSourceFolder = "\\ECS2261SVR02\FlsaGmsPic\ECS2261"  # Network source folder for directory copy
+$PicDestinationFolder = "C:\FlsaDev\GMSPic\Ops\ECS2261" # Destination folder for directory copy
 
 # Services to stop and restart (commented out)
 # $ServicesToManage = "SdrOpcHdaSvr30", "SdrPLCParamsSvr30", "SdrPointSvr30", "SdrRepScheduleSvr30", "SdrStartHelperRpc30", "SdrSAAMServer.3", "SdrSimS5Svr30", "SdrLogSvr30"
@@ -28,7 +28,8 @@ $FilesToCopy = "SdrApAlg30.mdb", "SdrBlkAlg30.mdb", "SdrBpAlg30.mdb", "SdrPoint3
 
 # --- Validate folder paths ---
 if (-not (Test-Path $MdbSourceFolder)) {
-    Write-Host "ERROR: MDB source folder does not exist: $MdbSourceFolder" -ForegroundColor Red
+    Write-Host "ERROR: Network MDB source folder not accessible: $MdbSourceFolder" -ForegroundColor Red
+    Write-Host "Please check network connectivity and share permissions." -ForegroundColor Yellow
     exit 1
 }
 
@@ -38,7 +39,8 @@ if (-not (Test-Path $MdbDestinationFolder)) {
 }
 
 if (-not (Test-Path $PicSourceFolder)) {
-    Write-Host "ERROR: Picture source folder does not exist: $PicSourceFolder" -ForegroundColor Red
+    Write-Host "ERROR: Network picture source folder not accessible: $PicSourceFolder" -ForegroundColor Red
+    Write-Host "Please check network connectivity and share permissions." -ForegroundColor Yellow
     exit 1
 }
 
@@ -240,7 +242,8 @@ if ($FailedFiles -eq 0 -and $DirCopySuccess) {
         Start-Sleep -Seconds 10
         
         Write-Host "Initiating system restart..." -ForegroundColor Red
-        Restart-Computer -Force
+        # Use shutdown.exe for PowerShell v1.0 compatibility
+        shutdown.exe /r /t 0 /f
     }
     else {
         Write-Host "System restart cancelled by user." -ForegroundColor Green
