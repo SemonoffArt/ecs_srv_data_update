@@ -1,5 +1,6 @@
 # PowerShell v1.0 Compatible ECS File Copy Script
 # Copies files and directories
+# (Service management functionality is commented out)
 
 # --- Configuration ---
 $MdbSourceFolder = "C:\tmp\source\FlsaProDb"    # Source folder for MDB files
@@ -7,6 +8,9 @@ $MdbDestinationFolder = "C:\tmp\dest\FlsaDev\ProDb" # Destination folder for MDB
 
 $PicSourceFolder = "C:\tmp\source\FlsaGmsPic\ECS2261"  # Source folder for directory copy
 $PicDestinationFolder = "C:\tmp\dest\FlsaDev\GMSPic\Ops\ECS2261" # Destination folder for directory copy
+
+# Services to stop and restart (commented out)
+# $ServicesToManage = "SdrOpcHdaSvr30", "SdrPLCParamsSvr30", "SdrPointSvr30", "SdrRepScheduleSvr30", "SdrStartHelperRpc30", "SdrSAAMServer.3", "SdrSimS5Svr30", "SdrLogSvr30"
 
 # Files to copy with replacement
 $FilesToCopy = "SdrApAlg30.mdb", "SdrBlkAlg30.mdb", "SdrBpAlg30.mdb", "SdrPoint30.mdb", "SdrSimS5Config30.mdb"
@@ -53,6 +57,43 @@ Write-Host "MDB Source: $MdbSourceFolder" -ForegroundColor Cyan
 Write-Host "MDB Destination: $MdbDestinationFolder" -ForegroundColor Cyan
 Write-Host "Picture Source: $PicSourceFolder" -ForegroundColor Cyan
 Write-Host "Picture Destination: $PicDestinationFolder" -ForegroundColor Cyan
+
+# --- Step 0: Stop Services (COMMENTED OUT) ---
+# После перезапуска служб - ECS клиент не может подключиться (синий или белый экран)), 
+# пока нашёл такой способ решения - перезагрузка windows.
+# Write-Host ""
+# Write-Host "Step 0: Stopping services..." -ForegroundColor Yellow
+# $StoppedServices = @()
+# 
+# foreach ($ServiceName in $ServicesToManage) {
+#     $Service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+#     
+#     if ($Service) {
+#         if ($Service.Status -eq "Running") {
+#             Write-Host "Stopping service: $ServiceName" -ForegroundColor White
+#             $Error.Clear()
+#             Stop-Service -Name $ServiceName -Force -ErrorAction SilentlyContinue
+#             if ($Error.Count -eq 0) {
+#                 $StoppedServices += $ServiceName
+#                 Write-Host "  Service stopped successfully" -ForegroundColor Green
+#             }
+#             else {
+#                 Write-Host "  Failed to stop service: $ServiceName" -ForegroundColor Red
+#             }
+#         }
+#         elseif ($Service.Status -eq "Stopped") {
+#             Write-Host "Service already stopped: $ServiceName" -ForegroundColor Gray
+#         }
+#         else {
+#             Write-Host "Service in state '$($Service.Status)': $ServiceName" -ForegroundColor Yellow
+#         }
+#     }
+#     else {
+#         Write-Host "WARNING: Service not found: $ServiceName" -ForegroundColor Yellow
+#     }
+# }
+# 
+# Write-Host "Services stopped: $($StoppedServices.Count)" -ForegroundColor Green
 
 # --- Step 1: Copy MDB Files ---
 Write-Host ""
@@ -135,6 +176,42 @@ else {
     $DirCopySuccess = $false
 }
 
+# --- Step 3: Start Services (COMMENTED OUT) ---
+# Write-Host ""
+# Write-Host "Step 3: Starting services..." -ForegroundColor Yellow
+# $StartedServices = 0
+# $FailedStarts = 0
+# 
+# foreach ($ServiceName in $StoppedServices) {
+#     Write-Host "Starting service: $ServiceName" -ForegroundColor White
+#     $Error.Clear()
+#     Start-Service -Name $ServiceName -ErrorAction SilentlyContinue
+#     
+#     if ($Error.Count -eq 0) {
+#         # Wait a moment and verify service started
+#         Start-Sleep -Seconds 2
+#         $Service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
+#         
+#         if ($Service -and $Service.Status -eq "Running") {
+#             Write-Host "  Service started successfully" -ForegroundColor Green
+#             $StartedServices++
+#         }
+#         else {
+#             if ($Service) {
+#                 Write-Host "  Service may not have started properly (Status: $($Service.Status))" -ForegroundColor Yellow
+#             }
+#             else {
+#                 Write-Host "  Could not verify service status" -ForegroundColor Yellow
+#             }
+#             $FailedStarts++
+#         }
+#     }
+#     else {
+#         Write-Host "  Failed to start service: $ServiceName" -ForegroundColor Red
+#         $FailedStarts++
+#     }
+# }
+
 # --- Summary ---
 Write-Host ""
 Write-Host "==================================================" -ForegroundColor Cyan
@@ -143,7 +220,11 @@ Write-Host "==================================================" -ForegroundColor
 Write-Host "MDB Files copied: $CopiedFiles"
 Write-Host "MDB Files failed: $FailedFiles"
 Write-Host "GMSPic Directory copy: $(if ($DirCopySuccess) { 'Success' } else { 'Failed' })"
+# Write-Host "Services stopped: $($StoppedServices.Count)" (commented out)
+# Write-Host "Services restarted: $StartedServices" (commented out)
+# Write-Host "Service start failures: $FailedStarts" (commented out)
 
+# --- Step 4: Restart Windows  ---
 if ($FailedFiles -eq 0 -and $DirCopySuccess) {
     Write-Host ""
     Write-Host "Operation completed successfully!" -ForegroundColor Green
