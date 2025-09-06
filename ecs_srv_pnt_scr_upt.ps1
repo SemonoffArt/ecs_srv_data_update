@@ -62,7 +62,7 @@ Write-Host "Picture Destination: $PicDestinationFolder" -ForegroundColor Cyan
 
 # --- User Confirmation ---
 Write-Host ""
-Write-Host "Execute ECS3 data update? (yes/no): " -ForegroundColor Yellow -NoNewline
+Write-Host "Execute ECS3 data update? (Y/N): " -ForegroundColor Yellow -NoNewline
 $UserChoice = Read-Host
 
 if ($UserChoice -eq "yes" -or $UserChoice -eq "Yes" -or $UserChoice -eq "YES" -or $UserChoice -eq "y" -or $UserChoice -eq "Y") {
