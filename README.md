@@ -241,6 +241,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 - **Разработчик**: Артемий Семёнов
 - **Email**: semonoff@gmail.com
 - **GitHub**: [SemonoffArt](https://github.com/SemonoffArt)
+- **Сайт**: [https://semonoffart.github.io/](https://semonoffart.github.io/)
 
 ## 🙏 Благодарности
 
