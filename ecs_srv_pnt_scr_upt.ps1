@@ -60,6 +60,20 @@ Write-Host "MDB Destination: $MdbDestinationFolder" -ForegroundColor Cyan
 Write-Host "Picture Source: $PicSourceFolder" -ForegroundColor Cyan
 Write-Host "Picture Destination: $PicDestinationFolder" -ForegroundColor Cyan
 
+# --- User Confirmation ---
+Write-Host ""
+Write-Host "Execute ECS3 data update? (yes/no): " -ForegroundColor Yellow -NoNewline
+$UserChoice = Read-Host
+
+if ($UserChoice -eq "да" -or $UserChoice -eq "Да" -or $UserChoice -eq "ДА" -or $UserChoice -eq "yes" -or $UserChoice -eq "Yes" -or $UserChoice -eq "YES" -or $UserChoice -eq "y" -or $UserChoice -eq "Y") {
+    Write-Host "Continuing with data update execution..." -ForegroundColor Green
+}
+else {
+    Write-Host "Data update cancelled by user." -ForegroundColor Red
+    Write-Host "Script execution terminated." -ForegroundColor Yellow
+    exit 0
+}
+
 # --- Step 0: Stop Services (COMMENTED OUT) ---
 # После перезапуска служб - ECS клиент не может подключиться (синий или белый экран)), 
 # пока нашёл такой способ решения - перезагрузка windows.
