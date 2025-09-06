@@ -65,7 +65,7 @@ Write-Host ""
 Write-Host "Execute ECS3 data update? (yes/no): " -ForegroundColor Yellow -NoNewline
 $UserChoice = Read-Host
 
-if ($UserChoice -eq "да" -or $UserChoice -eq "Да" -or $UserChoice -eq "ДА" -or $UserChoice -eq "yes" -or $UserChoice -eq "Yes" -or $UserChoice -eq "YES" -or $UserChoice -eq "y" -or $UserChoice -eq "Y") {
+if ($UserChoice -eq "yes" -or $UserChoice -eq "Yes" -or $UserChoice -eq "YES" -or $UserChoice -eq "y" -or $UserChoice -eq "Y") {
     Write-Host "Continuing with data update execution..." -ForegroundColor Green
 }
 else {
